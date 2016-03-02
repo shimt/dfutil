@@ -1,4 +1,16 @@
 def import_module_object(this, module):
+    """指定したモジュールから公開オブジェクトをインポート
+
+    指定したモジュールから以下をインポートする。
+
+    1) module.__all__が指定されている場合は__all__に定義されたオブジェクト
+    2) それ以外の場合は、オブジェクト名が「_」から始まらないオブジェクト
+
+    Args:
+        this (module):　インポート先のモジュール
+        module (module):　インポート元のモジュール
+    """
+
     this_dict = vars(this)
     module_dict = vars(module)
 
