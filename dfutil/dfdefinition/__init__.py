@@ -1,5 +1,9 @@
 import sys
 
+"""
+データフレームの定義および定義に従った変形を行うモジュール
+"""
+
 from dfutil.innerutil import import_module_object
 
 from . import transformer

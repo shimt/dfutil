@@ -2,6 +2,9 @@
 
 import functools
 
+"""
+データフレームのデータを修正するモジュール
+"""
 
 class _SetKeyColumn(object):
     pass
