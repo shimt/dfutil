@@ -8,7 +8,7 @@ insert_final_newline = true
 trim_trailing_whitespace = true
 
 ; Python: PEP8 defines 4 spaces for indentation
-[*.py]
+[*.py, *.pyx]
 indent_style = space
 indent_size = 4
 
