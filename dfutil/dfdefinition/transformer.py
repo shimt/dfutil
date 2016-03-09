@@ -114,6 +114,30 @@ class DFTransformer(object):
 
                 df[cn] = pd.Categorical(df[cn], categories=categories)
 
+    def rename_column(self, dataframe):
+        assert isinstance(dataframe, pd.DataFrame)
+        assert "column_rename_map" in self.definition
+
+        rename_map = self.definition["column_rename_map"]
+
+        assert isinstance(rename_map, dict)
+
+        dataframe.columns = dataframe.columns.map(
+            lambda v: rename_map.get(v, v)
+        )
+
+    def rename_column_r(self, dataframe):
+        assert isinstance(dataframe, pd.DataFrame)
+        assert "column_rename_map" in self.definition
+
+        rename_map = {
+            v: k for k, v in self.definition["column_rename_map"].items()
+        }
+
+        dataframe.columns = dataframe.columns.map(
+            lambda v: rename_map.get(v, v)
+        )
+
     def transform(self, dataframe):
         assert isinstance(dataframe, pd.DataFrame)
 
