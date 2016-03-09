@@ -5,6 +5,7 @@ import yaml
 
 from dfutil.dfdefinition.transformer import DFTransformer
 
+
 class DFDefinition(object):
     """データフレーム定義を保持するためのクラス
 
