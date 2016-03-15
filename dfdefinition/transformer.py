@@ -114,29 +114,43 @@ class DFTransformer(object):
 
                 df[cn] = pd.Categorical(df[cn], categories=categories)
 
-    def rename_column(self, dataframe):
+    def rename_column(self, dataframe, inplace=False):
         assert isinstance(dataframe, pd.DataFrame)
-        assert "column_rename_map" in self.definition
+        assert "base_column_rename_map" in self.definition
 
-        rename_map = self.definition["column_rename_map"]
+        if inplace:
+            df = dataframe
+        else:
+            df = dataframe.copy()
+
+        rename_map = self.definition["base_column_rename_map"]
 
         assert isinstance(rename_map, dict)
 
-        dataframe.columns = dataframe.columns.map(
+        df.columns = df.columns.map(
             lambda v: rename_map.get(v, v)
         )
 
-    def rename_column_r(self, dataframe):
+        return df
+
+    def rename_column_r(self, dataframe, inplace=False):
         assert isinstance(dataframe, pd.DataFrame)
-        assert "column_rename_map" in self.definition
+        assert "base_column_rename_map" in self.definition
+
+        if inplace:
+            df = dataframe
+        else:
+            df = dataframe.copy()
 
         rename_map = {
-            v: k for k, v in self.definition["column_rename_map"].items()
+            v: k for k, v in self.definition["base_column_rename_map"].items()
         }
 
-        dataframe.columns = dataframe.columns.map(
+        df.columns = df.columns.map(
             lambda v: rename_map.get(v, v)
         )
+
+        return df
 
     def transform(self, dataframe):
         assert isinstance(dataframe, pd.DataFrame)
@@ -152,6 +166,9 @@ class DFTransformer(object):
             self.derived_function_map.update(
                 self.definition["derived_function_map"]
             )
+
+        if "base_column_rename_map" in self.definition:
+            self.rename_column(df, inplace=True)
 
         # カラム名設定
         self.__call_processer(
